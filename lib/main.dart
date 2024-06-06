@@ -40,4 +40,4 @@ class MyApp extends StatelessWidget {
 
 // To get harder, the background color shuffles, and is not connected to the specific movement anymore 
 
-//TODO: Create package dependencies - auth firebase, sensors _plus 
+//TODO: Create package dependencies - auth firebase,
