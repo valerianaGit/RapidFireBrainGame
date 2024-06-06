@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:math'; // necessary to use Random
 import 'package:sensors_plus/sensors_plus.dart'; // shake it move 
 
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+
 /// Game Engine 
 /// After the game has started , the game logic will take place here 
 /// game state, rules, difficulty adjustments, and score calculations.
@@ -63,14 +66,39 @@ class GameEngine {
     }
 
   }
+// Firestore methods 
+  Future<void> loadHighScore() async {
+    // ... (Load from Firestore based on user ID)
+  }
 
+  Future<void> saveHighScore() async {
+    // ... (Save to Firestore, updating if necessary)
+  }
 
 
 
 
 }
 
+// Might need for a timer-> If so, remember to dispose of resources 
+// import 'dart:async'; // Import for Timer
 
+// class GameEngine {
+//   // ... other properties
+//   Timer? _gameTimer;
+
+//   void startGame() {
+//     // ... other initialization logic
+
+//     _gameTimer = Timer.periodic(Duration(seconds: 1), (_) {
+//       // Update game state every second
+//     });
+//   }
+
+//   void dispose() {
+//     _gameTimer?.cancel(); // Cancel the timer if it's active
+//   }
+// }
 
 
 
