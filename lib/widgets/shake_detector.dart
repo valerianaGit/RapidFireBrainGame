@@ -22,53 +22,46 @@ class _ShakeDetectorState extends State<ShakeDetector> {
   DateTime? _userAccelerometerUpdateTime;
   int? _userAccelerometerLastInterval;
 
-  @override
-  void initState() {
+
+@override
+void initState() {
     super.initState();
-    _streamSubscriptions.add(
+     _streamSubscriptions.add(
       userAccelerometerEventStream(samplingPeriod: sensorInterval).listen(
         (UserAccelerometerEvent event) {
           final totalAcceleration = event.x.abs() + event.y.abs() + event.z.abs();
           final now = DateTime.now();
           setState(() {
-             _userAccelerometerEvent = event;
-                   if (totalAcceleration > _shakeThreshold &&
+            _userAccelerometerEvent = event;
+
+            // if (_userAccelerometerUpdateTime != null) {
+            //   final interval = now.difference(_userAccelerometerUpdateTime!);
+            //   if (interval > _ignoreDuration) {
+            //     _userAccelerometerLastInterval = interval.inMilliseconds;
+            //   }
+            // }
+                        if (totalAcceleration > _shakeThreshold &&
             (_lastShakeTime == null || now.difference(_lastShakeTime!) > _shakeCooldown)) {
           _lastShakeTime = now;
           widget.onShake();
+        }
+          });
+          _userAccelerometerUpdateTime = now;
         },
-  
-           
-        //     if (_userAccelerometerUpdateTime != null) {
-        //       final interval = now.difference(_userAccelerometerUpdateTime!);
-        //       if (interval > _shakeCooldown) {
-        //         _userAccelerometerLastInterval = interval.inMilliseconds;
-        //       }
-        //     }
-        //   });
-        //   _userAccelerometerUpdateTime = now;
-        //   widget.onShake;
-  
-
- 
-        // },
         onError: (e) {
-          //MARK: Next release, handle so it goes to next move and doesn't use shake -take shake out of the running
           showDialog(
               context: context,
               builder: (context) {
                 return const AlertDialog(
                   title: Text("Sensor Not Found"),
                   content: Text(
-                      "It seems that your device doesn't support shaking. Do a dance instead"),
+                      "It seems that your device doesn't support User Accelerometer Sensor"),
                 );
               });
         },
         cancelOnError: true,
       ),
     );
-
-
   }
 
   @override
@@ -84,3 +77,4 @@ class _ShakeDetectorState extends State<ShakeDetector> {
     return Container(); // Empty container, to overlay on top of the shakedetector container
   }
 }
+
