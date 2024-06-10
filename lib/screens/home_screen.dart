@@ -2,8 +2,10 @@ import 'package:brain_game_rapid_fire/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:brain_game_rapid_fire/constants/palette.dart';
 import 'package:brain_game_rapid_fire/models/game_engine.dart';
+import 'package:brain_game_rapid_fire/widgets/swipe_detector.dart';
 
 class HomeScreen extends StatefulWidget {
+ 
   const HomeScreen({super.key});
 
   @override
@@ -12,12 +14,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late GameEngine _gameEngine;
+    Color currentColor = Colors.blue; // Initial color
+
+  final Map<SwipeDirection, Color> directionColors = {
+    SwipeDirection.up: Colors.green,
+    SwipeDirection.down: Colors.red,
+    SwipeDirection.left: Colors.yellow,
+    SwipeDirection.right: Colors.purple,
+  };
 
   @override
   void initState() {
     super.initState();
     _gameEngine = GameEngine(
-      onNewMove: (move) => setState(() => _gameEngine.currentMove = move),
+      onNewMove: (move) {
+//TODO:ERASE => setState(() => _gameEngine.currentMove = move),
+          // Update the color based on the new move's direction
+          currentColor = directionColors[stringToSwipeDirection(move)]!;
+      },
       onScoreUpdate: (newScore) => setState(() => _gameEngine.score = newScore),
       onGameOver: () => showGameOverDialog(),
     );
@@ -27,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     // Clean up game engine resources when the widget is disposed
-    // create dispose when we implement timers, etc to avoid memory leaks
+    // create dispose [IN GAME ENGINE TO BE USED HERE)
+    // when we implement timers, etc to avoid memory leaks
     //_gameEngine.dispose();
     super.dispose();
   }
@@ -46,7 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text('Score: ${_gameEngine.score}',// TODO: LOCALIZABLE STRING 
                     style: const TextStyle(fontSize: 24)),
-              //TODO: action button so person can respond  
+                SwipeDetector(
+              onSwipe: (direction) {
+                _gameEngine.handleMove(direction.toString().split('.').last); 
+              },
+              child: Container(
+                width: 200,
+                height: 200,
+                color: Colors.blue, 
+                child: const Center(
+                  child: Text('Swipe Me!'),
+                ),
+              ),
+            ), 
                 SizedBox(
                     height: 280.0, child: Image.asset(kArrowSwipeLeftAsset)),
                  Padding(
@@ -92,5 +119,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+    // Helper function to convert string to SwipeDirection
+  SwipeDirection stringToSwipeDirection(String move) {
+    switch (move) {
+      case 'Swipe Up':
+        return SwipeDirection.up;
+      case 'Swipe Down':
+        return SwipeDirection.down;
+      case 'Swipe Left':
+        return SwipeDirection.left;
+      case 'Swipe Right':
+        return SwipeDirection.right;
+      default:
+        return SwipeDirection.up; // Default to up if move is invalid
+    }
   }
 }
