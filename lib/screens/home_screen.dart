@@ -1,8 +1,9 @@
-import 'package:brain_game_rapid_fire/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:brain_game_rapid_fire/constants/palette.dart';
-import 'package:brain_game_rapid_fire/models/game_engine.dart';
-import 'package:brain_game_rapid_fire/widgets/swipe_detector.dart';
+import '../constants/strings.dart';
+import '../constants/palette.dart';
+import '../models/game_engine.dart';
+import '../widgets/swipe_detector.dart';
+import '../widgets/shake_detector.dart';
 
 class HomeScreen extends StatefulWidget {
  
@@ -61,19 +62,26 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text('Score: ${_gameEngine.score}',// TODO: LOCALIZABLE STRING 
                     style: const TextStyle(fontSize: 24)),
-                SwipeDetector(
-              onSwipe: (direction) {
-                _gameEngine.handleMove(direction.toString().split('.').last); 
-              },
-              child: Container(
-                width: 200,
-                height: 200,
-                color: Colors.blue, 
-                child: const Center(
-                  child: Text('Swipe Me!'),
-                ),
-              ),
-            ), 
+//SWIPE/shake detection stack
+Stack( // Use a Stack to overlay the ShakeDetector
+        children: [
+          SwipeDetector(
+            onSwipe: (direction) {
+              _gameEngine.handleMove(direction.toString().split('.').last);
+            },
+            currentColor: currentColor,
+            currentMove: _gameEngine.currentMove,
+            child: Container( // The swipeable container
+              // ... your container configuration ...
+            ),
+          ),
+          ShakeDetector(
+            onShake: () {
+              _gameEngine.handleMove('Shake It'); //TODO: LOCALIZABLE STRING
+            },
+          ),
+        ],
+      ), 
                 SizedBox(
                     height: 280.0, child: Image.asset(kArrowSwipeLeftAsset)),
                  Padding(
