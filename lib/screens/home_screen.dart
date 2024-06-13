@@ -119,19 +119,5 @@ Stack( // Use a Stack to overlay the ShakeDetector
       ),
     );
   }
-    // Helper function to convert string to SwipeDirection
-  SwipeDirection stringToSwipeDirection(String move) {
-    switch (move) {
-      case 'Swipe Up':
-        return SwipeDirection.up;
-      case 'Swipe Down':
-        return SwipeDirection.down;
-      case 'Swipe Left':
-        return SwipeDirection.left;
-      case 'Swipe Right':
-        return SwipeDirection.right;
-      default:
-        return SwipeDirection.up; // Default to up if move is invalid
-    }
-  }
+
 }
