@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
-import '../constants/strings.dart';
+//import '../constants/strings.dart';
 import '../constants/palette.dart';
 import '../models/game_engine.dart';
 import '../widgets/swipe_detector.dart';
 import '../widgets/shake_detector.dart';
+import '../widgets/swipe_area.dart';
 
 class HomeScreen extends StatefulWidget {
  
@@ -62,19 +64,17 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text('Score: ${_gameEngine.score}',// TODO: LOCALIZABLE STRING 
                     style: const TextStyle(fontSize: 24)),
+                    const SizedBox(height: 32),
 //SWIPE/shake detection stack
 Stack( // Use a Stack to overlay the ShakeDetector
         children: [
           Center(
-            child: SwipeDetector(
+            child: SwipeArea(
               onSwipe: (direction) {
                 _gameEngine.handleMove(direction.toString().split('.').last);
               },
               currentColor: currentColor,
               currentMove: _gameEngine.currentMove,
-              child: Container( // The swipeable container
-                // ... your container configuration ...
-              ),
             ),
           ),
           ShakeDetector(
@@ -84,17 +84,6 @@ Stack( // Use a Stack to overlay the ShakeDetector
           ),
         ],
       ), 
-                // SizedBox(
-                //     height: 280.0, child: Image.asset(kArrowSwipeLeftAsset)),
-                //  Padding(
-                //   padding: EdgeInsets.all(16.0),
-                //   child: Text(_gameEngine.currentMove,
-                //       style: const TextStyle(
-                //           fontSize:
-                //               36)), 
-                //               //Text(kSwipeLeft), //TODO : FONT FAMILY AND TEXT STYLE
-                //   // TODO: LOCalizable string
-                // ),
               ],
             ),
           ),

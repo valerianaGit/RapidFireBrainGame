@@ -6,7 +6,7 @@ import 'dart:async'; // for stream subscription
 class ShakeDetector extends StatefulWidget {
   final Function() onShake;
 
-  const ShakeDetector({Key? key, required this.onShake}) : super(key: key);
+  const ShakeDetector({super.key, required this.onShake});
 
   @override
   _ShakeDetectorState createState() => _ShakeDetectorState();

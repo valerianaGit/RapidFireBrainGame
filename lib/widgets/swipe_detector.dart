@@ -3,16 +3,11 @@ import 'package:flutter/material.dart';
 class SwipeDetector extends StatelessWidget {
   final Function(SwipeDirection) onSwipe;
   final Widget child;
-  final Color currentColor; 
-  final String currentMove; 
 
-  const SwipeDetector({
-    Key? key,
-    required this.onSwipe,
-    required this.child,
-    required this.currentColor,
-    required this.currentMove
-  }) : super(key: key);
+  const SwipeDetector(
+      {super.key,
+      required this.onSwipe,
+      required this.child,});
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +25,9 @@ class SwipeDetector extends StatelessWidget {
           }
         }
       },
-      child: Container(
-        width: 200,
-        height: 200,
-        color: currentColor,
-        child: Center(
-          child: Text(currentMove),
-        ),
-      ),
+      child: child,
     );
   }
 }
 
 enum SwipeDirection { up, down, left, right }
-
