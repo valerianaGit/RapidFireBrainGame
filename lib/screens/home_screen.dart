@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final palette = Palette();
     return Scaffold(
-      backgroundColor: palette.background4,
+      backgroundColor: palette.background4, //currentColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -65,14 +65,16 @@ class _HomeScreenState extends State<HomeScreen> {
 //SWIPE/shake detection stack
 Stack( // Use a Stack to overlay the ShakeDetector
         children: [
-          SwipeDetector(
-            onSwipe: (direction) {
-              _gameEngine.handleMove(direction.toString().split('.').last);
-            },
-            currentColor: currentColor,
-            currentMove: _gameEngine.currentMove,
-            child: Container( // The swipeable container
-              // ... your container configuration ...
+          Center(
+            child: SwipeDetector(
+              onSwipe: (direction) {
+                _gameEngine.handleMove(direction.toString().split('.').last);
+              },
+              currentColor: currentColor,
+              currentMove: _gameEngine.currentMove,
+              child: Container( // The swipeable container
+                // ... your container configuration ...
+              ),
             ),
           ),
           ShakeDetector(
@@ -82,17 +84,17 @@ Stack( // Use a Stack to overlay the ShakeDetector
           ),
         ],
       ), 
-                SizedBox(
-                    height: 280.0, child: Image.asset(kArrowSwipeLeftAsset)),
-                 Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(_gameEngine.currentMove,
-                      style: const TextStyle(
-                          fontSize:
-                              36)), 
-                              //Text(kSwipeLeft), //TODO : FONT FAMILY AND TEXT STYLE
-                  // TODO: LOCalizable string
-                ),
+                // SizedBox(
+                //     height: 280.0, child: Image.asset(kArrowSwipeLeftAsset)),
+                //  Padding(
+                //   padding: EdgeInsets.all(16.0),
+                //   child: Text(_gameEngine.currentMove,
+                //       style: const TextStyle(
+                //           fontSize:
+                //               36)), 
+                //               //Text(kSwipeLeft), //TODO : FONT FAMILY AND TEXT STYLE
+                //   // TODO: LOCalizable string
+                // ),
               ],
             ),
           ),
